@@ -2,17 +2,21 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route('/recording-handler', methods=['POST'])
-def handle_recording():
-    print("📥 התקבלה בקשת הקלטה מימות המשיח:")
-    print(request.form.to_dict())  # מדפיס את הנתונים שהגיעו
+@app.route("/yemot", methods=["POST"])
+def handle_yemot_request():
+    try:
+        data = request.form.to_dict()
+        print("📥 קיבלנו בקשה מיְמות:", data)
 
-    # מחזירים תגובה פשוטה שהמערכת תוכל להמשיך
-    return "תקין, אפשר להמשיך הלאה", 200, {'Content-Type': 'text/plain; charset=utf-8'}
+        # דוגמה: שמירה ללוג (אפשר גם לקובץ)
+        with open("yemot_log.txt", "a", encoding="utf-8") as log_file:
+            log_file.write(str(data) + "\n")
 
-@app.route('/', methods=['GET'])
-def index():
-    return "🔥 שרת פעיל – ממתין לבקשות מימות", 200
+        return "תקין אפשר להמשיך הלאה"
+    
+    except Exception as e:
+        print("❌ שגיאה:", str(e))
+        return "שגיאה"
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
