@@ -3,19 +3,19 @@ from flask import Flask, request
 app = Flask(__name__)
 
 @app.route("/yemot", methods=["POST"])
-def handle_yemot_request():
+def handle_yemot():
     try:
         data = request.form.to_dict()
-        print("📥 קיבלנו בקשה מיְמות:", data)
+        print("📥 התקבלה בקשה מימות:", data)
 
-        # דוגמה: שמירה ללוג (אפשר גם לקובץ)
+        # שמירה ללוג (לבדיקה)
         with open("yemot_log.txt", "a", encoding="utf-8") as log_file:
             log_file.write(str(data) + "\n")
 
         return "תקין אפשר להמשיך הלאה"
     
     except Exception as e:
-        print("❌ שגיאה:", str(e))
+        print("❌ שגיאה בטיפול בבקשה:", str(e))
         return "שגיאה"
 
 if __name__ == "__main__":
